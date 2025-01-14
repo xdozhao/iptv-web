@@ -1,0 +1,16 @@
+#============================================================================
+# Swagger 配置
+#============================================================================
+springdoc:
+  api-docs:
+    enabled: true # 是否开启文档功能
+    path: /api-docs # Swagger 后端请求地址
+  swagger-ui:
+    path: /swagger-ui
+    disable-swagger-default-url: true
+  group-configs:
+    - group: all
+      paths-to-match: /**
+    - group: tool
+      paths-to-match:
+        - /tool/**

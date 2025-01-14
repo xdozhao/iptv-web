@@ -1,0 +1,55 @@
+server:
+  port: 8910 # 端口号
+  servlet:
+    context-path: /m3u # context路径
+spring: # Spring boot配置
+  application:
+    name: module-m3u # 应用名称
+  profiles:
+    active:
+      - dev # 默认激活dev配置
+      - swagger
+  jackson: # Rest API 配置
+    # json序列化日期格式
+    date-format: yyyy-MM-dd HH:mm:ss
+    # json序列化日期时区
+    time-zone: GMT+8
+  messages: # 国际化 i18n 配置
+    basename: i18n/messages
+  servlet:
+    multipart:
+      max-file-size: 100MB # 单个文件大小
+      max-request-size: 200MB # 单个请求的大小
+mybatis-flex:
+  admin-config:
+    enable: false
+  mapper-locations: classpath*:/mapper/**/*.xml # MyBatis Mapper 所对应的 XML 文件位置
+  global-config:
+    print-banner: true # 是否控制台打印 MyBatis-Flex 的 LOGO 及版本号。
+    key-config: # 全局的 ID 生成策略配置，当 @Id 未配置或者配置 KeyType 为 None 时 使用当前全局配置。
+      key-type: none
+      before: true
+      value: KeyGenerators.snowFlakeId
+    normal-value-of-logic-delete: '0' # 逻辑删除数据存在标记值。
+    deleted-value-of-logic-delete: '1' # 逻辑删除已删除值标记
+    logic-delete-column: del_flag # 默认的逻辑删除字段。
+    tenant-column: tenant_id # 默认的多租户字段。
+    version-column: version # 默认的乐观锁字段。
+# Forest 配置
+forest:
+  backend: okhttp3             # 后端HTTP框架（默认为 okhttp3）
+  max-connections: 1000        # 连接池最大连接数（默认为 500）
+  max-route-connections: 500   # 每个路由的最大连接数（默认为 500）
+  max-request-queue-size: 100  # [自v1.5.22版本起可用] 最大请求等待队列大小
+  max-async-thread-size: 300   # [自v1.5.21版本起可用] 最大异步线程数
+  max-async-queue-size: 16     # [自v1.5.22版本起可用] 最大异步线程池队列大小
+  connect-timeout: 60000        # 连接超时时间，单位为毫秒（默认为 timeout）
+  read-timeout: 60000           # 数据读取超时时间，单位为毫秒（默认为 timeout）
+  max-retry-count: 0           # 请求失败后重试次数（默认为 0 次不重试）
+  ssl-protocol: TLS            # 单向验证的HTTPS的默认TLS协议（默认为 TLS）
+  log-enabled: true            # 打开或关闭日志（默认为 true）
+  log-request: true            # 打开/关闭Forest请求日志（默认为 true）
+  log-response-status: true    # 打开/关闭Forest响应状态日志（默认为 true）
+  log-response-content: true   # 打开/关闭Forest响应内容日志（默认为 false）
+  async-mode: platform         # [自v1.5.27版本起可用] 异步模式（默认为 platform）
+  interceptors: com.xdozhao.iptv.common.forest.interceptor.GlobalInterceptor

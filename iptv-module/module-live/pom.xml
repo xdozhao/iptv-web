@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.xdozhao.iptv.module</groupId>
+        <artifactId>iptv-module</artifactId>
+        <version>${revision}</version>
+    </parent>
+
+    <groupId>com.xdozhao.iptv.module.live</groupId>
+    <artifactId>module-live</artifactId>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.xdozhao.iptv.common</groupId>
+            <artifactId>common-m3u</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.xdozhao.iptv.common</groupId>
+            <artifactId>common-forest</artifactId>
+        </dependency>
+        <!-- jasypt-spring-boot-starter -->
+        <dependency>
+            <groupId>com.github.ulisesbocchio</groupId>
+            <artifactId>jasypt-spring-boot-starter</artifactId>
+        </dependency>
+        <!-- swagger start -->
+        <dependency>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-starter-webmvc-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+        </dependency>
+        <!-- swagger end -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+</project>

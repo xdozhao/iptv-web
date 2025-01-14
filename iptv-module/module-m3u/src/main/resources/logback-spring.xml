@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="true" scanPeriod="60 seconds" debug="false" packagingData="true">
+    <!-- 获取yml中的log地址 -->
+    <springProperty scope="context" name="app_name" source="spring.application.name" defaultValue="app"/>
+    <springProperty scope="context" name="app_port" source="server.port" defaultValue="port"/>
+    <springProperty scope="context" name="file_name" source="logging.file.name" defaultValue="log"/>
+    <springProperty scope="context" name="file_path" source="logging.file.path" defaultValue="logs"/>
+    <springProperty scope="context" name="clean-history-on-start"
+                    source="logging.logback.rollingpolicy.clean-history-on-start"
+                    defaultValue="false"/>
+    <springProperty scope="context" name="file_name_pattern" source="logging.logback.rollingpolicy.file-name-pattern"
+                    defaultValue="${file_path}/${app_name}.%d{yyyy-MM-dd}.%i.log"/>
+    <springProperty scope="context" name="max_file_size" source="logging.logback.rollingpolicy.max-file-size"
+                    defaultValue="100MB"/>
+    <springProperty scope="context" name="max_history" source="logging.logback.rollingpolicy.max-history"
+                    defaultValue="30"/>
+    <springProperty scope="context" name="total_size_cap" source="logging.logback.rollingpolicy.total-size-cap"
+                    defaultValue="10GB"/>
+
+    <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
+
+    <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>${CONSOLE_LOG_PATTERN}</pattern>
+            <!-- 设置字符集 -->
+            <charset>${CONSOLE_LOG_CHARSET}</charset>
+        </encoder>
+    </appender>
+
+    <appender name="file" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>${file_name_pattern}</fileNamePattern>
+            <maxFileSize>${max_file_size}</maxFileSize>
+            <maxHistory>${max_history}</maxHistory>
+            <totalSizeCap>${total_size_cap}</totalSizeCap>
+        </rollingPolicy>
+        <encoder>
+            <pattern>${FILE_LOG_PATTERN}</pattern>
+            <!-- 设置字符集 -->
+            <charset>${FILE_LOG_CHARSET}</charset>
+        </encoder>
+    </appender>
+
+
+    <!-- TRACE < DEBUG < INFO < WARN < ERROR < FATAL -->
+    <logger name="com.xdozhao" level="DEBUG" additivity="false">
+        <appender-ref ref="console"/>
+        <appender-ref ref="file"/>
+    </logger>
+
+    <root level="DEBUG">
+        <appender-ref ref="console"/>
+        <appender-ref ref="file"/>
+    </root>
+</configuration>

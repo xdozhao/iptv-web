@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.xdozhao.iptv</groupId>
+        <artifactId>iptv-web</artifactId>
+        <version>${revision}</version>
+    </parent>
+
+    <groupId>com.xdozhao.iptv.module</groupId>
+    <artifactId>iptv-module</artifactId>
+    <packaging>pom</packaging>
+    <modules>
+        <module>module-m3u</module>
+        <module>module-generate</module>
+        <module>module-live</module>
+    </modules>
+
+</project>
