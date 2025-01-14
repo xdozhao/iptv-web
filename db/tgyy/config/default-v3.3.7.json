@@ -1,0 +1,92 @@
+{
+  "version": "3.3.7",
+  "syncAt": 1735316467715,
+  "syncFrom": "天光云影",
+  "description": null,
+  "configs": {
+    "appBootLaunch": false,
+    "appPipEnable": false,
+    "appLastLatestVersion": "",
+    "appAgreementAgreed": true,
+    "appStartupScreen": "Dashboard",
+    "debugDeveloperMode": false,
+    "debugShowFps": false,
+    "debugShowVideoPlayerMetadata": false,
+    "debugShowLayoutGrids": false,
+    "iptvSourceCacheTime": 86400000,
+    "iptvSourceCurrent": {
+      "name": "默认直播源 fanmingming（IPV6）",
+      "url": "https://live.fanmingming.com/tv/m3u/ipv6.m3u",
+      "isLocal": false,
+      "transformJs": null
+    },
+    "iptvSourceList": {
+      "value": []
+    },
+    "iptvChannelGroupHiddenList": [],
+    "iptvHybridMode": "DISABLE",
+    "iptvSimilarChannelMerge": false,
+    "iptvChannelLogoProvider": "https://live.fanmingming.com/tv/{name|uppercase}.png",
+    "iptvChannelLogoOverride": false,
+    "iptvChannelFavoriteEnable": true,
+    "iptvChannelFavoriteListVisible": false,
+    "iptvChannelFavoriteList": {
+      "value": []
+    },
+    "iptvChannelLastPlay": null,
+    "iptvChannelLinePlayableHostList": null,
+    "iptvChannelLinePlayableUrlList": null,
+    "iptvChannelChangeFlip": false,
+    "iptvChannelNoSelectEnable": true,
+    "iptvChannelChangeListLoop": false,
+    "epgEnable": true,
+    "epgSourceCurrent": {
+      "name": "默认节目单 fanmingming",
+      "url": "https://live.fanmingming.com/e.xml"
+    },
+    "epgSourceList": {
+      "value": []
+    },
+    "epgRefreshTimeThreshold": 2,
+    "epgSourceFollowIptv": false,
+    "epgChannelReserveList": {
+      "value": []
+    },
+    "uiShowEpgProgrammeProgress": true,
+    "uiShowEpgProgrammePermanentProgress": false,
+    "uiShowChannelLogo": true,
+    "uiShowChannelPreview": false,
+    "uiUseClassicPanelScreen": false,
+    "uiDensityScaleRatio": 0,
+    "uiFontScaleRatio": 1,
+    "uiTimeShowMode": "HIDDEN",
+    "uiFocusOptimize": true,
+    "uiScreenAutoCloseDelay": 15000,
+    "updateForceRemind": false,
+    "updateChannel": "stable",
+    "videoPlayerCore": "MEDIA3",
+    "videoPlayerRenderMode": "SURFACE_VIEW",
+    "videoPlayerUserAgent": "okhttp",
+    "videoPlayerHeaders": "",
+    "videoPlayerLoadTimeout": 15000,
+    "videoPlayerDisplayMode": "ORIGINAL",
+    "videoPlayerForceAudioSoftDecode": false,
+    "videoPlayerStopPreviousMediaItem": false,
+    "videoPlayerSkipMultipleFramesOnSameVSync": true,
+    "themeAppCurrent": null,
+    "cloudSyncAutoPull": null,
+    "cloudSyncProvider": null,
+    "cloudSyncGithubGistId": null,
+    "cloudSyncGithubGistToken": null,
+    "cloudSyncGiteeGistId": null,
+    "cloudSyncGiteeGistToken": null,
+    "cloudSyncNetworkUrl": null,
+    "cloudSyncLocalFilePath": null,
+    "cloudSyncWebDavUrl": null,
+    "cloudSyncWebDavUsername": null,
+    "cloudSyncWebDavPassword": null,
+    "feiyangAllInOneFilePath": ""
+  },
+  "extraLocalIptvSourceList": {},
+  "extraChannelNameAlias": ""
+}
