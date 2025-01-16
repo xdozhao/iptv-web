@@ -5,6 +5,8 @@ import com.dtflys.forest.annotation.Get;
 import com.dtflys.forest.annotation.Query;
 import com.xdozhao.iptv.module.live.forest.response.BiliBaseResponse;
 
+import java.math.BigDecimal;
+
 /**
  * 直播间信息
  * @author zhaoxd
@@ -21,7 +23,7 @@ public interface ILiveInfoOpenApi {
      * @return 根对象
      */
     @Get(url = "/room/v1/Room/get_info")
-    BiliBaseResponse getInfo(@Query("room_id") int roomId);
+    BiliBaseResponse getInfo(@Query("room_id") BigDecimal roomId);
 
     /**
      * 获取直播间信息
@@ -31,7 +33,7 @@ public interface ILiveInfoOpenApi {
      * @return 根对象
      */
     @Get(url = "/room/v1/Room/room_init")
-    BiliBaseResponse roomInit(@Query("id") int id);
+    BiliBaseResponse roomInit(@Query("id") BigDecimal id);
 
     /**
      * 获取主播信息
@@ -41,7 +43,7 @@ public interface ILiveInfoOpenApi {
      * @return 根对象
      */
     @Get(url = "/live_user/v1/Master/info")
-    BiliBaseResponse liveUserMasterInfo(@Query("uid") int uid);
+    BiliBaseResponse liveUserMasterInfo(@Query("uid") BigDecimal uid);
 
     /**
      * 获取直播间信息
@@ -52,7 +54,7 @@ public interface ILiveInfoOpenApi {
      * @return 根对象
      */
     @Get(url = "/xlive/web-room/v2/index/getRoomPlayInfo?room_id={0}&protocol=0,1&format=0,1,2&codec=0,1,2&qn={1}&platform=web&ptype=8&dolby=5&panorama=1&hdr_type=0,1")
-    BiliBaseResponse getRoomPlayInfo(int roomId, int qn);
+    BiliBaseResponse getRoomPlayInfo(BigDecimal roomId, int qn);
 
 
     /**
@@ -63,5 +65,5 @@ public interface ILiveInfoOpenApi {
      * @return 根对象
      */
     @Get(url = "/live_user/v1/UserInfo/get_anchor_in_room")
-    BiliBaseResponse getAnchorInRoom(@Query("roomid") int roomId);
+    BiliBaseResponse getAnchorInRoom(@Query("roomid") BigDecimal roomId);
 }

@@ -8,6 +8,7 @@ import com.alibaba.fastjson2.JSONObject;
 import com.xdozhao.iptv.common.core.constant.M3u8Constant;
 import com.xdozhao.iptv.module.live.forest.openapi.bilibili.live.ILiveAreaOpenApi;
 import com.xdozhao.iptv.module.live.forest.response.BiliBaseResponse;
+import com.xdozhao.iptv.module.live.service.IRoomInfoService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
@@ -36,6 +37,8 @@ import java.time.format.DateTimeFormatter;
 @RequestMapping("/m3u")
 public class BiliM3uController {
     ILiveAreaOpenApi liveAreaOpenApi;
+
+    private IRoomInfoService roomInfoService;
 
     /**
      * 每个大分区Top200

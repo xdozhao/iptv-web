@@ -4,27 +4,17 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>com.xdozhao.iptv.module</groupId>
-        <artifactId>iptv-module</artifactId>
+        <groupId>com.xdozhao.iptv.api</groupId>
+        <artifactId>iptv-api</artifactId>
         <version>${revision}</version>
     </parent>
 
-    <groupId>com.xdozhao.iptv.module.live</groupId>
-    <artifactId>module-live</artifactId>
-
+    <groupId>com.xdozhao.iptv.api.bilibili</groupId>
+    <artifactId>api-bilibili</artifactId>
     <dependencies>
         <dependency>
             <groupId>com.xdozhao.iptv.common</groupId>
-            <artifactId>common-m3u</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.xdozhao.iptv.common</groupId>
-            <artifactId>common-forest</artifactId>
-        </dependency>
-        <!-- jasypt-spring-boot-starter -->
-        <dependency>
-            <groupId>com.github.ulisesbocchio</groupId>
-            <artifactId>jasypt-spring-boot-starter</artifactId>
+            <artifactId>common-core</artifactId>
         </dependency>
         <!-- swagger start -->
         <dependency>
@@ -45,23 +35,5 @@
             <artifactId>mybatis-flex-processor</artifactId>
             <scope>provided</scope>
         </dependency>
-        <dependency>
-            <groupId>com.mybatis-flex</groupId>
-            <artifactId>mybatis-flex-codegen</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.alibaba</groupId>
-            <artifactId>druid-spring-boot-starter</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.mysql</groupId>
-            <artifactId>mysql-connector-j</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
-            <scope>test</scope>
-        </dependency>
     </dependencies>
-
 </project>

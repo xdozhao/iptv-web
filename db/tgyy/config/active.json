@@ -1,6 +1,6 @@
 {
-  "version": "20241231",
-  "syncAt": 1735637572187,
+  "version": "20250116",
+  "syncAt": 1737021773081,
   "syncFrom": "天光云影配置",
   "description": null,
   "configs": {
@@ -16,7 +16,7 @@
     "iptvSourceCacheTime": 86400000,
     "iptvSourceCurrent": {
       "name": "默认直播源（IPV6）",
-      "url": "https://live.fanmingming.cn/tv/m3u/ipv6.m3u",
+      "url": "https://tv.iill.top/m3u/Gather",
       "isLocal": false,
       "transformJs": null
     },
@@ -30,7 +30,7 @@
         },
         {
           "name": "AKTV",
-          "url": "http://live.aktv.top/live.m3u",
+          "url": "https://aktv.top/live.m3u",
           "isLocal": false,
           "transformJs": null
         },
@@ -43,6 +43,12 @@
         {
           "name": "网络直播",
           "url": "https://tv.iill.top/m3u/Live",
+          "isLocal": false,
+          "transformJs": null
+        },
+        {
+          "name": "mytvsuper",
+          "url": "https://www.mytvsuper.com.mp/m3u/Live.m3u",
           "isLocal": false,
           "transformJs": null
         }

@@ -1,30 +1,27 @@
-package com.xdozhao.iptv.module.generate.entity;
+package com.xdozhao.iptv.module.live.entity;
 
 import com.mybatisflex.annotation.Id;
 import com.mybatisflex.annotation.Table;
-import java.io.Serializable;
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
 import com.mybatisflex.core.activerecord.Model;
-
-
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
+import java.time.LocalDateTime;
+
 /**
- * m3u直播源表 实体类。
+ * bilibili直播分区 实体类。
  *
  * @author zhaoxd
- * @since 8
+ * @since 18
  */
 @Accessors(chain = true)
 @Data(staticConstructor = "create")
 @EqualsAndHashCode(callSuper = true)
-@Schema(description = "m3u直播源表")
-@Table("m3u_ext_inf")
-public class M3uExtInf extends Model<M3uExtInf> {
+@Schema(description = "bilibili直播分区")
+@Table("b_live_area")
+public class LiveArea extends Model<LiveArea> {
 
     private static final long serialVersionUID = 1L;
 
@@ -33,73 +30,64 @@ public class M3uExtInf extends Model<M3uExtInf> {
      */
     @Id
     @Schema(description = "主键id")
-    private String id;
+    private Integer id;
 
     /**
-     * 持续时间(秒)
+     * 父分区id
      */
-    @Schema(description = "持续时间(秒)")
-    private BigDecimal duration;
+    @Schema(description = "父分区id")
+    private Integer parentId;
 
     /**
-     * 标题
+     * 父分区名
      */
-    @Schema(description = "标题")
-    private String title;
+    @Schema(description = "父分区名")
+    private String parentName;
 
     /**
-     * 媒体文件路径
+     * 旧版分区id
      */
-    @Schema(description = "媒体文件路径")
-    private String url;
+    @Schema(description = "旧版分区id")
+    private Integer oldAreaId;
 
     /**
-     * 频道的唯一标识符
+     * 分区名称
      */
-    @Schema(description = "频道的唯一标识符")
-    private String tvgId;
+    @Schema(description = "分区名称")
+    private String name;
 
     /**
-     * 频道名称
+     * 0，作用尚不明确
      */
-    @Schema(description = "频道名称")
-    private String tvgName;
+    @Schema(description = "0，作用尚不明确")
+    private Integer actId;
 
     /**
-     * 指定频道logo的URL
+     * ？？？，作用尚不明确
      */
-    @Schema(description = "指定频道logo的URL")
-    private String tvgLogo;
+    @Schema(description = "？？？，作用尚不明确")
+    private Integer pkStatus;
 
     /**
-     * 指定频道所属的组
+     * 是否为热门分区，0：否<br />1：是
      */
-    @Schema(description = "指定频道所属的组")
-    private String groupTitle;
+    @Schema(description = "是否为热门分区，0：否<br />1：是")
+    private Integer hotStatus;
 
     /**
-     * 状态
+     * 0，作用尚不明确
      */
-    @Schema(description = "状态")
-    private String status;
+    @Schema(description = "0，作用尚不明确")
+    private Integer lockStatus;
 
     /**
-     * 平台
+     * 子分区标志图片url
      */
-    @Schema(description = "平台")
-    private String platform;
+    @Schema(description = "子分区标志图片url")
+    private String pic;
 
-    /**
-     * 来源
-     */
-    @Schema(description = "来源")
-    private String source;
-
-    /**
-     * 优先级
-     */
-    @Schema(description = "优先级")
-    private Integer priority;
+    @Schema(description = "")
+    private Integer areaType;
 
     /**
      * 备注

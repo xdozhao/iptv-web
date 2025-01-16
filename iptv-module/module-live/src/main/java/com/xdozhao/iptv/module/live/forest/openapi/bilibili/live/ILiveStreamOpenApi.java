@@ -5,6 +5,8 @@ import com.dtflys.forest.annotation.Get;
 import com.dtflys.forest.annotation.Query;
 import com.xdozhao.iptv.module.live.forest.response.BiliBaseResponse;
 
+import java.math.BigDecimal;
+
 /**
  *  直播媒体流
  * @author zhaoxd
@@ -23,5 +25,5 @@ public interface ILiveStreamOpenApi {
      * @return 根对象
      */
     @Get(url = "/room/v1/Room/playUrl")
-    BiliBaseResponse playUrl(@Query("cid") int cid, @Query("platform") String platform, @Query("qn") int qn);
+    BiliBaseResponse playUrl(@Query("cid") BigDecimal cid, @Query("platform") String platform, @Query("qn") int qn);
 }

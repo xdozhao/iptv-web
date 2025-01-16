@@ -13,11 +13,11 @@ mybatis-flex:
     enable: false
   datasource:
     master:
-      url: jdbc:mysql://127.0.0.1:3306/iptv?useUnicode=true&characterEncoding=utf-8&autoReconnect=true&useSSL=false
+      url: jdbc:mysql://10.211.55.22:3306/iptv?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai&connectTimeout=10000&socketTimeout=10000&autoReconnect=true&useSSL=false
       username: ENC(8YbVy8dnr99Xfm5Rbu4vvw==)
       password: ENC(gZL5yX/nN01bjgpeROhcQA==)
     postgresql:
-      url: jdbc:postgresql://127.0.0.1:5432/postgres
+      url: jdbc:postgresql://10.211.55.22:5432/postgres
       username: ENC(1U13vEMl26nsx9Dl7eL6hxO6IDADD5CI)
       password: ENC(CL19XNR4HLl3PdInH8i3VA==)
 spring:

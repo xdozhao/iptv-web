@@ -19,17 +19,16 @@ import java.io.Serializable;
  * @date 2025/1/7 14:28
  */
 @Slf4j
-//@SpringBootTest
 class TestM3uGenerate {
     @Test
     void testCodegen() {
         // 配置数据源
         DruidDataSource dataSource = new DruidDataSource();
-        dataSource.setUrl("jdbc:mysql://127.0.0.1:3306/iptv?useUnicode=true&characterEncoding=utf-8&autoReconnect=true&useSSL=false");
+        dataSource.setUrl("jdbc:mysql://10.211.55.22:3306/iptv?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai&connectTimeout=10000&socketTimeout=10000&autoReconnect=true&useSSL=false");
         dataSource.setUsername("root");
         dataSource.setPassword("123456");
 
-//        dataSource.setUrl("jdbc:postgresql://127.0.0.1:5432/postgres");
+//        dataSource.setUrl("jdbc:postgresql://10.211.55.22:5432/postgres");
 //        dataSource.setUsername("postgres");
 //        dataSource.setPassword("123456");
 
@@ -54,17 +53,17 @@ class TestM3uGenerate {
 
         // 策略配置
         globalConfig.getStrategyConfig()
-//                .setTablePrefix("tb_")
-                .setGenerateTable("m3u_ext_inf")
+                .setTablePrefix("b_")
+                .setGenerateTable("b_room_info")
 //                .setColumnConfig("tb_account", ColumnConfig.create().setColumnName("tenant_id").setLarge(true).setVersion(true)) // 可以单独配置某个列
-//                .setLogicDeleteColumn("del_flag")
-//                .setVersionColumn("version")
+                .setLogicDeleteColumn("del_flag")
+                .setVersionColumn("version")
         ;
 
         // 注释配置
         globalConfig.getJavadocConfig()
                 .setAuthor("zhaoxd")
-                .setSince("8");
+                .setSince("18");
 
         // Entity 生成配置
         globalConfig.enableEntity()

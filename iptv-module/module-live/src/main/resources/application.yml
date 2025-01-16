@@ -20,6 +20,21 @@ spring: # Spring boot配置
     multipart:
       max-file-size: 100MB # 单个文件大小
       max-request-size: 200MB # 单个请求的大小
+mybatis-flex:
+  admin-config:
+    enable: false
+  mapper-locations: classpath*:/mapper/**/*.xml # MyBatis Mapper 所对应的 XML 文件位置
+  global-config:
+    print-banner: true # 是否控制台打印 MyBatis-Flex 的 LOGO 及版本号。
+    key-config: # 全局的 ID 生成策略配置，当 @Id 未配置或者配置 KeyType 为 None 时 使用当前全局配置。
+      key-type: none
+      before: true
+      value: KeyGenerators.snowFlakeId
+    normal-value-of-logic-delete: '0' # 逻辑删除数据存在标记值。
+    deleted-value-of-logic-delete: '1' # 逻辑删除已删除值标记
+    logic-delete-column: del_flag # 默认的逻辑删除字段。
+    tenant-column: tenant_id # 默认的多租户字段。
+    version-column: version # 默认的乐观锁字段。
 # Forest 配置
 forest:
   backend: okhttp3             # 后端HTTP框架（默认为 okhttp3）

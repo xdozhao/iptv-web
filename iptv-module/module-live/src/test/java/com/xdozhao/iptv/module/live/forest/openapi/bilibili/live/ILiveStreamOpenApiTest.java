@@ -7,6 +7,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.math.BigDecimal;
+
 @Slf4j
 @SpringBootTest
 class ILiveStreamOpenApiTest {
@@ -15,7 +17,7 @@ class ILiveStreamOpenApiTest {
 
     @Test
     void playUrl() {
-        BiliBaseResponse result = openApi.playUrl(21623527, "web", 30000);
+        BiliBaseResponse result = openApi.playUrl(new BigDecimal(21623527), "web", 30000);
         log.warn("Result:{}", result);
         Assertions.assertEquals(0, result.getCode());
     }

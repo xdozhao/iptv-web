@@ -7,6 +7,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.math.BigDecimal;
+
 @Slf4j
 @SpringBootTest
 class ILiveInfoOpenApiTest {
@@ -16,35 +18,35 @@ class ILiveInfoOpenApiTest {
 
     @Test
     void getInfo() {
-        BiliBaseResponse result = openApi.getInfo(21623527);
+        BiliBaseResponse result = openApi.getInfo(new BigDecimal(21623527));
         log.warn("Result:{}", result);
         Assertions.assertEquals(0, result.getCode());
     }
 
     @Test
     void roomInit() {
-        BiliBaseResponse result = openApi.roomInit(21623527);
+        BiliBaseResponse result = openApi.roomInit(new BigDecimal(21623527));
         log.warn("Result:{}", result);
         Assertions.assertEquals(0, result.getCode());
     }
 
     @Test
     void liveUserMasterInfo() {
-        BiliBaseResponse result = openApi.liveUserMasterInfo(433587902);
+        BiliBaseResponse result = openApi.liveUserMasterInfo(new BigDecimal(21623527));
         log.warn("Result:{}", result);
         Assertions.assertEquals(0, result.getCode());
     }
 
     @Test
     void getRoomPlayInfo() {
-        BiliBaseResponse result = openApi.getRoomPlayInfo(21623527, 30000);
+        BiliBaseResponse result = openApi.getRoomPlayInfo(new BigDecimal(21623527), 30000);
         log.warn("Result:{}", result);
         Assertions.assertEquals(0, result.getCode());
     }
 
     @Test
     void getAnchorInRoom() {
-        BiliBaseResponse result = openApi.getAnchorInRoom(21623527);
+        BiliBaseResponse result = openApi.getAnchorInRoom(new BigDecimal(21623527));
         log.warn("Result:{}", result);
         Assertions.assertEquals(0, result.getCode());
     }

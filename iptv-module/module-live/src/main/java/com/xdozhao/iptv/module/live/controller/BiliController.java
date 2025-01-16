@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.math.BigDecimal;
 import java.net.URI;
 import java.net.URISyntaxException;
 
@@ -50,7 +51,7 @@ public class BiliController {
     public ResponseEntity<String> getUrlByRoomeId(@PathVariable String id, HttpServletRequest request, HttpServletResponse response) throws URISyntaxException {
         String result = null;
         // 获取直播间信息
-        BiliBaseResponse info = liveInfoOpenApi.getInfo(Integer.parseInt(id));
+        BiliBaseResponse info = liveInfoOpenApi.getInfo(new BigDecimal(id));
         if (info.getCode() != 0 && info.getData() != null) {
             // 直播间不存在
             return ResponseEntity
@@ -69,7 +70,7 @@ public class BiliController {
                     .build();
         }
         // 直播间长号
-        int roomId = infoData.getInteger("room_id");
+        BigDecimal roomId = infoData.getBigDecimal("room_id");
         // 根据真实直播间号获取直播视频流
         BiliBaseResponse playUrl = liveStreamOpenApi.playUrl(roomId, "h5", 10000);
         if (playUrl.getCode() != 0 && playUrl.getData() != null) {
@@ -116,7 +117,7 @@ public class BiliController {
     @Operation(description = "查询直播链接通过UID")
     public ResponseEntity<String> getUrlByUid(@PathVariable String id, HttpServletRequest request, HttpServletResponse response) throws URISyntaxException {
         String result = null;
-        BiliBaseResponse userMasterInfo = liveInfoOpenApi.liveUserMasterInfo(Integer.parseInt(id));
+        BiliBaseResponse userMasterInfo = liveInfoOpenApi.liveUserMasterInfo(new BigDecimal(id));
         if (userMasterInfo.getCode() != 0 && userMasterInfo.getData() != null) {
             // 主播信息不存在
             return ResponseEntity
@@ -125,7 +126,7 @@ public class BiliController {
                     .build();
         }
         JSONObject userMasterInfoData = JSON.parseObject(userMasterInfo.getData());
-        Integer shotRoomId = userMasterInfoData.getInteger("room_id");
+        BigDecimal shotRoomId = userMasterInfoData.getBigDecimal("room_id");
         // 获取直播间信息
         BiliBaseResponse info = liveInfoOpenApi.getInfo(shotRoomId);
         if (info.getCode() != 0 && info.getData() != null) {
@@ -146,7 +147,7 @@ public class BiliController {
                     .build();
         }
         // 直播间长号
-        int roomId = infoData.getInteger("room_id");
+        BigDecimal roomId = infoData.getBigDecimal("room_id");
         // 根据真实直播间号获取直播视频流
         BiliBaseResponse playUrl = liveStreamOpenApi.playUrl(roomId, "h5", 10000);
         if (playUrl.getCode() != 0 && playUrl.getData() != null) {
