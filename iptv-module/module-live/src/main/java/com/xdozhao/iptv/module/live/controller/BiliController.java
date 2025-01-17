@@ -5,7 +5,7 @@ import com.alibaba.fastjson2.JSONArray;
 import com.alibaba.fastjson2.JSONObject;
 import com.xdozhao.iptv.module.live.forest.openapi.bilibili.live.ILiveInfoOpenApi;
 import com.xdozhao.iptv.module.live.forest.openapi.bilibili.live.ILiveStreamOpenApi;
-import com.xdozhao.iptv.module.live.forest.response.BiliBaseResponse;
+import com.xdozhao.iptv.module.live.forest.response.bilibili.BiliBaseResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;

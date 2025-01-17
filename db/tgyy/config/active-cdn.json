@@ -51,6 +51,18 @@
           "url": "https://www.mytvsuper.com.mp/m3u/Live.m3u",
           "isLocal": false,
           "transformJs": null
+        },
+        {
+          "name": "my-service-all",
+          "url": "http://192.168.1.2:8911/live/m3u/all",
+          "isLocal": false,
+          "transformJs": null
+        },
+        {
+          "name": "my-service-online",
+          "url": "http://192.168.1.2:8911/live/m3u/online",
+          "isLocal": false,
+          "transformJs": null
         }
       ]
     },

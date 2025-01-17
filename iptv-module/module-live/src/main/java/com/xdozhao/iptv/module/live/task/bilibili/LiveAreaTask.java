@@ -6,10 +6,11 @@ import com.alibaba.fastjson2.JSONObject;
 import com.xdozhao.iptv.module.live.entity.LiveArea;
 import com.xdozhao.iptv.module.live.forest.openapi.bilibili.live.ILiveAreaOpenApi;
 import com.xdozhao.iptv.module.live.forest.openapi.bilibili.live.ILiveInfoOpenApi;
-import com.xdozhao.iptv.module.live.forest.response.BiliBaseResponse;
+import com.xdozhao.iptv.module.live.forest.response.bilibili.BiliBaseResponse;
 import com.xdozhao.iptv.module.live.service.ILiveAreaService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
@@ -34,6 +35,10 @@ class LiveAreaTask {
 
     private ILiveAreaService liveAreaService;
 
+    /**
+     * 每月1日1:00执行一次
+     */
+    @Scheduled(cron = "0 0 1 1 */1 *")
     void run() {
         // 获取全部直播间分区列表
         BiliBaseResponse area = liveAreaOpenApi.getList();

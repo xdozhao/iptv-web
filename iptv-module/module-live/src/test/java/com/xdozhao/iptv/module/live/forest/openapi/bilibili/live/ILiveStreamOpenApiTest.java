@@ -1,6 +1,6 @@
 package com.xdozhao.iptv.module.live.forest.openapi.bilibili.live;
 
-import com.xdozhao.iptv.module.live.forest.response.BiliBaseResponse;
+import com.xdozhao.iptv.module.live.forest.response.bilibili.BiliBaseResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;

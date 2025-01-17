@@ -3,7 +3,7 @@ package com.xdozhao.iptv.module.live.forest.openapi.bilibili.live;
 import com.dtflys.forest.annotation.BaseRequest;
 import com.dtflys.forest.annotation.Get;
 import com.dtflys.forest.annotation.Query;
-import com.xdozhao.iptv.module.live.forest.response.BiliBaseResponse;
+import com.xdozhao.iptv.module.live.forest.response.bilibili.BiliBaseResponse;
 
 /**
  * 直播间分区

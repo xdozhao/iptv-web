@@ -63,10 +63,10 @@ create table b_live_area
 drop table if exists `b_room_info`;
 create table b_room_info
 (
-    id                      DECIMAL(16, 0) unique not null comment '主键id',
+    id      DECIMAL(16, 0) unique not null comment '主键id',
     uname                   varchar(64) comment '用户名',
     face                    varchar(256) comment '用户头像',
-    room_id                 DECIMAL(16, 0) unique not null comment '直播间id',
+    room_id DECIMAL(16, 0) unique not null comment '直播间id',
     short_id                int comment '直播间短号，为0是无短号',
     attention               int comment '关注数量',
     online                  int comment '观看人数',

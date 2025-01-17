@@ -25,6 +25,6 @@ class RoomInfoTaskTest {
 
     @Test
     void list() {
-        roomInfoService.list();
+        roomInfoService.getById(0);
     }
 }

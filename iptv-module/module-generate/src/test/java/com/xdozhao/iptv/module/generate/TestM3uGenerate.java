@@ -24,11 +24,11 @@ class TestM3uGenerate {
     void testCodegen() {
         // 配置数据源
         DruidDataSource dataSource = new DruidDataSource();
-        dataSource.setUrl("jdbc:mysql://10.211.55.22:3306/iptv?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai&connectTimeout=10000&socketTimeout=10000&autoReconnect=true&useSSL=false");
+        dataSource.setUrl("jdbc:mysql://127.0.0.1:3306/iptv?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai&connectTimeout=10000&socketTimeout=10000&autoReconnect=true&useSSL=false");
         dataSource.setUsername("root");
         dataSource.setPassword("123456");
 
-//        dataSource.setUrl("jdbc:postgresql://10.211.55.22:5432/postgres");
+//        dataSource.setUrl("jdbc:postgresql://127.0.0.1:5432/postgres");
 //        dataSource.setUsername("postgres");
 //        dataSource.setPassword("123456");
 

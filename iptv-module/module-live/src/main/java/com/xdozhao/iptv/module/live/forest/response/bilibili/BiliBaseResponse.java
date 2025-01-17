@@ -1,8 +1,7 @@
-package com.xdozhao.iptv.module.live.forest.response;
+package com.xdozhao.iptv.module.live.forest.response.bilibili;
 
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 
 /**
  * Bilibili 接口 JSON响应
@@ -13,7 +12,6 @@ import lombok.ToString;
  */
 @Getter
 @Setter
-@ToString
 public class BiliBaseResponse {
     private int code;
     private String msg;

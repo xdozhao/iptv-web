@@ -9,17 +9,20 @@ import com.xdozhao.iptv.module.live.entity.RoomInfo;
 import com.xdozhao.iptv.module.live.entity.table.RoomInfoTableDef;
 import com.xdozhao.iptv.module.live.forest.openapi.bilibili.live.ILiveAreaOpenApi;
 import com.xdozhao.iptv.module.live.forest.openapi.bilibili.live.ILiveInfoOpenApi;
-import com.xdozhao.iptv.module.live.forest.response.BiliBaseResponse;
+import com.xdozhao.iptv.module.live.forest.response.bilibili.BiliBaseResponse;
 import com.xdozhao.iptv.module.live.service.ILiveAreaService;
 import com.xdozhao.iptv.module.live.service.IRoomInfoService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.concurrent.*;
+import java.util.concurrent.locks.LockSupport;
 
 import static com.xdozhao.iptv.module.live.entity.table.LiveAreaTableDef.LIVE_AREA;
 
@@ -44,38 +47,46 @@ class RoomInfoTask {
 
     private IRoomInfoService roomInfoService;
 
+    /**
+     * 每10分钟执行一次
+     */
+    @Scheduled(cron = "0 */10 * * * *")
     void run() {
+        long startTime = System.currentTimeMillis();
         // 更新所有数据直播状态为 -1
-        boolean updateAll = roomInfoService.update(RoomInfo.create().setLiveStatus(-1), RoomInfoTableDef.ROOM_INFO.ID.isNull());
+        boolean updateAll = roomInfoService.update(RoomInfo.create().setLiveStatus(-1), RoomInfoTableDef.ROOM_INFO.ID.isNotNull());
         log.info("更新所有数据直播状态为 -1: {}", updateAll);
-        // 查询分区
-        QueryWrapper liveAreaQueryWrapper = new QueryWrapper()
-                .select(LIVE_AREA.ID)
-                .and(LIVE_AREA.PARENT_ID.isNull());
-        List<LiveArea> liveAreaList = liveAreaService.list(liveAreaQueryWrapper);
-        for (LiveArea liveArea : liveAreaList) {
-            LinkedList<RoomInfo> roomInfoList = new LinkedList<>();
-            int id = liveArea.getId();
-            int total = 0;
-            int curPage = 1;
-            int pageSize = 90;
-            // 分页查询 默认每个分区 查 10 * 90 条数据
-            while ((curPage - 1) * pageSize <= total) {
-                // 获取分区直播间信息
-                BiliBaseResponse room = liveAreaOpenApi.getRoomList(id, curPage++, pageSize, "online");
-                if (room.getCode() != 0) {
-                    break;
-                }
-                JSONObject roomDataInfo = JSON.parseObject(room.getData());
-                total = roomDataInfo.getInteger("count");
-                JSONArray roomArr = roomDataInfo.getJSONArray("list");
-                if (roomArr.isEmpty()) {
-                    break;
-                }
-                // 添加当前页数据
-                for (int k = 0; k < roomArr.size(); k++) {
-                    JSONObject areaRoomInfo = roomArr.getJSONObject(k);
-                    roomInfoList.add(getRoomInfo(areaRoomInfo));
+        // 创建入库线程池
+        ExecutorService executorService = initExecutorService();
+        try {
+            // 查询分区
+            QueryWrapper liveAreaQueryWrapper = new QueryWrapper()
+                    .select(LIVE_AREA.ID)
+                    .and(LIVE_AREA.PARENT_ID.isNull());
+            List<LiveArea> liveAreaList = liveAreaService.list(liveAreaQueryWrapper);
+            for (LiveArea liveArea : liveAreaList) {
+                LinkedList<RoomInfo> roomInfoList = new LinkedList<>();
+                int id = liveArea.getId();
+                int total = 0;
+                int curPage = 1;
+                int pageSize = 90;
+                // 分页查询 默认每个分区 查 10 * 90 条数据
+                while ((curPage - 1) * pageSize <= total) {
+                    // 获取分区直播间信息
+                    BiliBaseResponse room = liveAreaOpenApi.getRoomList(id, curPage++, pageSize, "online");
+                    if (room.getCode() != 0) {
+                        break;
+                    }
+                    JSONObject roomDataInfo = JSON.parseObject(room.getData());
+                    total = roomDataInfo.getInteger("count");
+                    JSONArray roomArr = roomDataInfo.getJSONArray("list");
+                    if (roomArr.isEmpty()) {
+                        break;
+                    }
+                    // 添加当前页数据
+                    for (int k = 0; k < roomArr.size(); k++) {
+                        JSONObject areaRoomInfo = roomArr.getJSONObject(k);
+                        roomInfoList.add(getRoomInfo(areaRoomInfo));
 //                    Integer roomId = areaRoomInfo.getInteger("roomid");
 //                    RoomInfo roomInfo = getRoomInfo(roomId);
 //                    if (roomInfo == null) {
@@ -85,21 +96,32 @@ class RoomInfoTask {
 //                    String face = areaRoomInfo.getString("face");
 //                    roomInfo.setUname(uname).setFace(face);
 //                    roomInfoList.add(roomInfo);
+                    }
                 }
-            }
-            // 数据入表
-            for (RoomInfo item : roomInfoList) {
-                RoomInfo update = roomInfoService.getById(item.getId());
-                if (update == null) {
-                    roomInfoService.save(item);
-                } else {
-                    item.setUpdateTime(LocalDateTime.now());
-                    item.setVersion(update.getVersion());
-                    roomInfoService.updateById(item);
+                // 数据入表
+                for (RoomInfo item : roomInfoList) {
+                    // 入库使用线程池
+                    executorService.execute(() -> {
+                        RoomInfo update = roomInfoService.getById(item.getId());
+                        if (update == null) {
+                            roomInfoService.save(item);
+                        } else {
+                            item.setUpdateTime(LocalDateTime.now());
+                            item.setVersion(update.getVersion());
+                            roomInfoService.updateById(item);
+                        }
+                    });
                 }
+                // 记录日志
+                log.info("Room add from area id:{},change:{} total:{}", id, roomInfoList.size(), total);
             }
-            // 记录日志
-            log.info("Room add from area id:{},change:{} total:{}", id, roomInfoList.size(), total);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        } finally {
+            executorService.shutdown();
+            // 监控线程池
+            executorServiceMonitor(executorService);
+            log.info("cost {}ms", System.currentTimeMillis() - startTime);
         }
     }
 
@@ -223,5 +245,36 @@ class RoomInfoTask {
                 .setAllowChangeAreaTime(allowChangeAreaTime)
                 .setAllowUploadCoverTime(allowUploadCoverTime)
                 ;
+    }
+
+    /**
+     * 创建线程池
+     *
+     * @return 线程池
+     */
+    private ExecutorService initExecutorService() {
+        return new ThreadPoolExecutor(
+                10,
+                50,
+                60,
+                TimeUnit.SECONDS,
+                new LinkedBlockingQueue<>(),
+                Executors.defaultThreadFactory(),
+                new ThreadPoolExecutor.AbortPolicy()
+        );
+    }
+
+    /**
+     * 监控线程池
+     *
+     * @param executorService 线程池
+     */
+    private void executorServiceMonitor(ExecutorService executorService) {
+        while (!executorService.isTerminated()) {
+            log.debug("ExecutorServiceLocal monitor: {}", executorService);
+            // 线程阻塞5秒
+            LockSupport.parkNanos(5 * 1000 * 1000000L);
+        }
+        log.debug("ExecutorServiceLocal end: {}", executorService);
     }
 }
