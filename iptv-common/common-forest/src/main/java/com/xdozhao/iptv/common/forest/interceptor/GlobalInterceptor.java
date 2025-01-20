@@ -29,7 +29,7 @@ public class GlobalInterceptor<T> implements Interceptor<T> {
         if (StringUtils.isBlank(request.getUserAgent())) {
             request.setUserAgent("Mozilla/5.0 (Windows NT; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36");
         }
-        log.debug("add header: User-Agent");
+        log.debug("add header: User-Agent:{}", request.getUserAgent());
     }
 
     /**

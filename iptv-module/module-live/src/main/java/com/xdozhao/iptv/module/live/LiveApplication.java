@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 /**
  * @author zhaoxd
@@ -11,6 +12,7 @@ import org.springframework.context.ApplicationContext;
  * @date 2025/1/10 17:57
  */
 @Slf4j
+@EnableScheduling
 @SpringBootApplication
 public class LiveApplication {
     public static void main(String[] args) {

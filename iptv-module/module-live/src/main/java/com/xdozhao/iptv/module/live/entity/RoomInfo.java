@@ -19,7 +19,7 @@ import java.time.LocalDateTime;
  * @since 18
  */
 @Accessors(chain = true)
-@Data(staticConstructor = "create")
+@Data
 @EqualsAndHashCode(callSuper = true)
 @Schema(description = "bilibili直播间信息")
 @Table("b_room_info")
