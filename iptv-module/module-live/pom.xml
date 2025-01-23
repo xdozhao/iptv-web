@@ -14,12 +14,20 @@
 
     <dependencies>
         <dependency>
+            <groupId>com.xdozhao.iptv.api</groupId>
+            <artifactId>api-mq</artifactId>
+        </dependency>
+        <dependency>
             <groupId>com.xdozhao.iptv.common</groupId>
             <artifactId>common-m3u</artifactId>
         </dependency>
         <dependency>
             <groupId>com.xdozhao.iptv.common</groupId>
             <artifactId>common-forest</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.xdozhao.iptv.common</groupId>
+            <artifactId>common-mq-rabbit</artifactId>
         </dependency>
         <!-- jasypt-spring-boot-starter -->
         <dependency>

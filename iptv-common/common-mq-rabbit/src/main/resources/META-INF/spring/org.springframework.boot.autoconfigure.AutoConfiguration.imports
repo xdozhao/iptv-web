@@ -1,0 +1,5 @@
+com.xdozhao.iptv.common.mq.rabbit.configuration.RabbitConfigure
+com.xdozhao.iptv.common.mq.rabbit.service.RabbitService
+com.xdozhao.iptv.common.mq.rabbit.configuration.DefaultConfirmCallback
+com.xdozhao.iptv.common.mq.rabbit.configuration.DefaultReturnsCallback
+com.xdozhao.iptv.common.mq.rabbit.aspect.MessageAutoConfirmAspect

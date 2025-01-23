@@ -106,6 +106,11 @@
             </dependency>
             <!-- start curr project -->
             <dependency>
+                <groupId>com.xdozhao.iptv.api</groupId>
+                <artifactId>api-mq</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <dependency>
                 <groupId>com.xdozhao.iptv.common</groupId>
                 <artifactId>common-core</artifactId>
                 <version>${revision}</version>
@@ -118,6 +123,11 @@
             <dependency>
                 <groupId>com.xdozhao.iptv.common</groupId>
                 <artifactId>common-m3u</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.xdozhao.iptv.common</groupId>
+                <artifactId>common-mq-rabbit</artifactId>
                 <version>${revision}</version>
             </dependency>
             <!-- end curr project -->

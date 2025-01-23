@@ -13,11 +13,11 @@ mybatis-flex:
     enable: false
   datasource:
     master:
-      url: jdbc:mysql://127.0.0.1:3306/iptv?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai&connectTimeout=10000&socketTimeout=10000&autoReconnect=true&useSSL=false
+      url: jdbc:mysql://10.211.55.22:3306/iptv?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai&connectTimeout=10000&socketTimeout=10000&autoReconnect=true&useSSL=false
       username: ENC(8YbVy8dnr99Xfm5Rbu4vvw==)
       password: ENC(gZL5yX/nN01bjgpeROhcQA==)
     postgresql:
-      url: jdbc:postgresql://127.0.0.1:5432/postgres
+      url: jdbc:postgresql://10.211.55.22:5432/postgres
       username: ENC(1U13vEMl26nsx9Dl7eL6hxO6IDADD5CI)
       password: ENC(CL19XNR4HLl3PdInH8i3VA==)
 spring:
@@ -58,6 +58,78 @@ spring:
         url-pattern: /* # 过滤所有url
         exclusions: "*.js,*.gif,*.jpg,*.png,*.css,*.ico,/druid/*" # 排除一些不必要的url
       filters: stat,wall,slf4j # 属性类型是字符串,配置监控统计拦截的filters，去掉后监控界面sql无法统计，通过别名的方式配置扩展插件，常用的插件有：监控统计用的filter:stat 日志用的filter:log4j 防御sql注入的filter:wall
+  # rabbitmq 配置
+  rabbitmq:
+    host: 10.211.55.22 #ip
+    port: 5672      #
+    #    addresses: 10.211.55.22:5672 #多个以逗号分隔，与host功能一样。
+    username: guest #账号
+    password: guest #密码
+    virtualHost: iptv   #链接的虚拟主机
+    requestedHeartbeat: 60s #指定心跳超时，单位秒，0为不指定；默认60s
+    publisher-confirm-type: correlated #这个配置是保证提供者确保消息推送到交换机中，不管成不成功，都会回调。 simple：同步等待confirm结果，直到超时；correlated：异步回调，定义ConfirmCallback，MQ返回结果时会回调这个ConfirmCallback
+    publisherReturns: true  #是否启用消息被退回
+    connectionTimeout: 30s #链接超时。单位ms。0表示无穷大不超时
+    ### ssl相关
+    ssl:
+      enabled: false #是否支持ssl
+      key-store: #指定持有SSL certificate的key store的路径
+      key-store-type: #key store类型 默认PKCS12
+      key-store-password: #指定访问key store的密码
+      trust-store: #指定持有SSL certificates的Trust store
+      trust-store-type: #默认JKS
+      trust-store-password: #访问密码
+      algorithm: #ssl使用的算法，例如，TLSv1.1
+      verify-hostname: true #是否开启hostname验证
+    ### cache相关
+    cache:
+      channel:
+        size: 10 #缓存中保持的channel数量
+        checkout-timeout: 60000 #当缓存数量被设置时，从缓存中获取一个channel的超时时间，单位毫秒；如果为0，则总是创建一个新channel
+      connection:
+        mode: channel #连接工厂缓存模式：CHANNEL 和 CONNECTION
+    #        size: 10 #缓存的连接数，只有是CONNECTION模式时生效
+    ### listener
+    listener:
+      type: simple #两种类型，SIMPLE，DIRECT
+      ## simple类型
+      simple:
+        concurrency: 1  #最小消费者数量
+        max-concurrency: 5 #最大的消费者数量
+        missing-queues-fatal: true #是否停止容器当容器中的队列不可用
+        ## 与direct相同配置部分
+        auto-startup: true #是否自动启动容器
+        acknowledge-mode: manual #表示消息确认方式，其有三种配置方式，分别是none、manual和auto；默认auto
+        prefetch: 1 #指定一个请求能处理多少个消息，如果有事务的话，必须大于等于transaction数量
+        default-requeue-rejected: true #决定被拒绝的消息是否重新入队；默认是true（与参数acknowledge-mode有关系）
+        idle-event-interval: 10s #container events发布频率，单位ms
+        ##重试机制
+        retry:
+          stateless: true #有无状态
+          enabled: true  #是否开启
+          max-attempts: 3 #最大重试次数,默认3
+          initial-interval: 3s #重试间隔
+          multiplier: 1 #对于上一次重试的乘数
+          max-interval: 10s #最大重试时间间隔
+      direct:
+        consumers-per-queue: 10 #每个队列消费者数量
+        missing-queues-fatal: false #若容器声明的队列在代理上不可用，是否失败.
+      #        #...其余配置看上方公共配置
+    ## template相关
+    template:
+      mandatory: true #是否启用强制信息；默认false。定义消息路由失败时的策略。true，则调用ReturnCallback；false：则直接丢弃消息
+      receive-timeout: 30s #`receive()`接收方法超时时间
+      reply-timeout: 30s #`sendAndReceive()`超时时间
+      #      exchange: #默认的交换机
+      #      routingKey: #默认的路由
+      #      defaultReceiveQueue: #默认的接收队列
+      ## retry重试相关
+      retry:
+        enabled: true #是否开启
+        max-attempts: 3 #最大重试次数
+        initial-interval: 3s #重试间隔
+        multiplier: 1 #失败间隔乘数
+        max-interval: 10s #最大间隔
 bilibili:
   live:
     base-url: http://192.168.1.2:8911/live/bilibili/
