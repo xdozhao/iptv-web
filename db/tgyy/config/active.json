@@ -1,6 +1,6 @@
 {
-  "version": "20250116",
-  "syncAt": 1737021773081,
+  "version": "20250123",
+  "syncAt": 1737625589035,
   "syncFrom": "天光云影配置",
   "description": null,
   "configs": {
@@ -61,6 +61,12 @@
         {
           "name": "my-service-online",
           "url": "http://192.168.1.2:8911/live/m3u/online",
+          "isLocal": false,
+          "transformJs": null
+        },
+        {
+          "name": "aio-tv",
+          "url": "http://192.168.1.2:35455/tv.m3u",
           "isLocal": false,
           "transformJs": null
         }
@@ -128,7 +134,7 @@
     "cloudSyncGithubGistToken": null,
     "cloudSyncGiteeGistId": null,
     "cloudSyncGiteeGistToken": null,
-    "cloudSyncNetworkUrl": "https://raw.githubusercontent.com/xdozhao/iptv-web/refs/heads/main/db/tgyy/config/active.json",
+    "cloudSyncNetworkUrl": "https://raw.githubusercontent.com/xdozhao/iptv-web/refs/heads/dev/db/tgyy/config/active-cdn.json",
     "cloudSyncLocalFilePath": null,
     "cloudSyncWebDavUrl": null,
     "cloudSyncWebDavUsername": null,
