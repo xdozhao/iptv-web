@@ -13,11 +13,11 @@ mybatis-flex:
     enable: false
   datasource:
     master:
-      url: jdbc:mysql://10.211.55.22:3306/iptv?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai&connectTimeout=10000&socketTimeout=10000&autoReconnect=true&useSSL=false
+      url: jdbc:mysql://127.0.0.1:3306/iptv?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai&connectTimeout=10000&socketTimeout=10000&autoReconnect=true&useSSL=false
       username: ENC(8YbVy8dnr99Xfm5Rbu4vvw==)
       password: ENC(gZL5yX/nN01bjgpeROhcQA==)
     postgresql:
-      url: jdbc:postgresql://10.211.55.22:5432/postgres
+      url: jdbc:postgresql://127.0.0.1:5432/postgres
       username: ENC(1U13vEMl26nsx9Dl7eL6hxO6IDADD5CI)
       password: ENC(CL19XNR4HLl3PdInH8i3VA==)
 spring:
@@ -60,9 +60,9 @@ spring:
       filters: stat,wall,slf4j # 属性类型是字符串,配置监控统计拦截的filters，去掉后监控界面sql无法统计，通过别名的方式配置扩展插件，常用的插件有：监控统计用的filter:stat 日志用的filter:log4j 防御sql注入的filter:wall
   # rabbitmq 配置
   rabbitmq:
-    host: 10.211.55.22 #ip
+    host: 127.0.0.1 #ip
     port: 5672      #
-    #    addresses: 10.211.55.22:5672 #多个以逗号分隔，与host功能一样。
+    #    addresses: 127.0.0.1:5672 #多个以逗号分隔，与host功能一样。
     username: guest #账号
     password: guest #密码
     virtualHost: iptv   #链接的虚拟主机
@@ -84,7 +84,7 @@ spring:
     ### cache相关
     cache:
       channel:
-        size: 10 #缓存中保持的channel数量
+        size: 30 #缓存中保持的channel数量
         checkout-timeout: 60000 #当缓存数量被设置时，从缓存中获取一个channel的超时时间，单位毫秒；如果为0，则总是创建一个新channel
       connection:
         mode: channel #连接工厂缓存模式：CHANNEL 和 CONNECTION

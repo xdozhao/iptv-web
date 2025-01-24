@@ -30,7 +30,7 @@ class SendRoomInfoTest {
 
     @Test
     void send() {
-        RoomInfo roomInfo = roomInfoService.getById("75");
+        RoomInfo roomInfo = roomInfoService.getById("2864");
         Mail<Serializable> mail = Mail.builder()
                 .id(IdUtil.simpleUUID())
                 .sendDate(LocalDateTime.now())

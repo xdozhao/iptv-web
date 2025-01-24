@@ -40,7 +40,7 @@ public class LiveRoomInfoListener {
     private final RoomInfoMapper roomInfoMapper;
 
     @AutoConfirmation
-    @RabbitListener(queues = Constants.Queue.BL_L_RGI)
+    @RabbitListener(queues = Constants.Queue.BL_L_RGI, concurrency = "1-3")
     public void listenerUpdateRoomInfoQueue(Channel channel, Message message, @Payload Mail<JSONObject> mail) {
         log.info("listener update_room_info_queue:{},{}", mail.getId(), mail.getSendDate());
         JSONObject json = mail.getData();
