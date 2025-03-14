@@ -1,12 +1,15 @@
 package com.xdozhao.iptv.module.live.task.bilibili;
 
+import cn.hutool.core.util.IdUtil;
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONArray;
 import com.alibaba.fastjson2.JSONObject;
 import com.mybatisflex.core.query.QueryWrapper;
+import com.xdozhao.iptv.api.mq.rabbit.Constants;
+import com.xdozhao.iptv.common.mq.rabbit.enitiy.Mail;
+import com.xdozhao.iptv.common.mq.rabbit.service.RabbitService;
 import com.xdozhao.iptv.module.live.entity.LiveArea;
 import com.xdozhao.iptv.module.live.entity.RoomInfo;
-import com.xdozhao.iptv.module.live.entity.table.RoomInfoTableDef;
 import com.xdozhao.iptv.module.live.forest.openapi.bilibili.live.ILiveAreaOpenApi;
 import com.xdozhao.iptv.module.live.forest.openapi.bilibili.live.ILiveInfoOpenApi;
 import com.xdozhao.iptv.module.live.forest.response.bilibili.BiliBaseResponse;
@@ -17,14 +20,13 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.concurrent.*;
-import java.util.concurrent.locks.LockSupport;
 
 import static com.xdozhao.iptv.module.live.entity.table.LiveAreaTableDef.LIVE_AREA;
+import static com.xdozhao.iptv.module.live.entity.table.RoomInfoTableDef.ROOM_INFO;
 
 
 /**
@@ -39,13 +41,15 @@ import static com.xdozhao.iptv.module.live.entity.table.LiveAreaTableDef.LIVE_AR
 @AllArgsConstructor
 class RoomListTask {
 
-    private ILiveAreaOpenApi liveAreaOpenApi;
+    private final RabbitService rabbitService;
 
-    private ILiveInfoOpenApi liveInfoOpenApi;
+    private final ILiveAreaOpenApi liveAreaOpenApi;
 
-    private ILiveAreaService liveAreaService;
+    private final ILiveInfoOpenApi liveInfoOpenApi;
 
-    private IRoomInfoService roomInfoService;
+    private final ILiveAreaService liveAreaService;
+
+    private final IRoomInfoService roomInfoService;
 
     /**
      * 每30分钟执行一次
@@ -54,10 +58,8 @@ class RoomListTask {
     void run() {
         long startTime = System.currentTimeMillis();
         // 更新所有数据直播状态为 -1
-        boolean updateAll = roomInfoService.update(new RoomInfo().setLiveStatus(-1), RoomInfoTableDef.ROOM_INFO.ID.isNotNull());
+        boolean updateAll = roomInfoService.update(new RoomInfo().setLiveStatus(-1), ROOM_INFO.ID.isNotNull());
         log.info("更新所有数据直播状态为 -1: {}", updateAll);
-        // 创建入库线程池
-        ExecutorService executorService = initExecutorService();
         try {
             // 查询分区
             QueryWrapper liveAreaQueryWrapper = QueryWrapper.create()
@@ -65,7 +67,6 @@ class RoomListTask {
                     .and(LIVE_AREA.PARENT_ID.isNull());
             List<LiveArea> liveAreaList = liveAreaService.list(liveAreaQueryWrapper);
             for (LiveArea liveArea : liveAreaList) {
-                LinkedList<RoomInfo> roomInfoList = new LinkedList<>();
                 int id = liveArea.getId();
                 int total = 0;
                 int curPage = 1;
@@ -86,41 +87,19 @@ class RoomListTask {
                     // 添加当前页数据
                     for (int k = 0; k < roomArr.size(); k++) {
                         JSONObject areaRoomInfo = roomArr.getJSONObject(k);
-                        roomInfoList.add(getRoomInfo(areaRoomInfo));
-//                    Integer roomId = areaRoomInfo.getInteger("roomid");
-//                    RoomInfo roomInfo = getRoomInfo(roomId);
-//                    if (roomInfo == null) {
-//                        break;
-//                    }
-//                    String uname = areaRoomInfo.getString("uname");
-//                    String face = areaRoomInfo.getString("face");
-//                    roomInfo.setUname(uname).setFace(face);
-//                    roomInfoList.add(roomInfo);
+                        Mail<Serializable> mail = Mail.builder()
+                                .id(IdUtil.simpleUUID())
+                                .sendDate(LocalDateTime.now())
+                                .data(getRoomInfo(areaRoomInfo))
+                                .build();
+                        // 数据发送到mq
+                        rabbitService.convertAndSend(Constants.Exchange.D_LIVE_ROOM_INFO, Constants.Router.X_DB_BRI_I, mail);
                     }
                 }
-                // 数据入表
-                for (RoomInfo item : roomInfoList) {
-                    // 入库使用线程池
-                    executorService.execute(() -> {
-                        RoomInfo update = roomInfoService.getById(item.getId());
-                        if (update == null) {
-                            roomInfoService.save(item);
-                        } else {
-                            item.setUpdateTime(LocalDateTime.now());
-                            item.setVersion(update.getVersion());
-                            roomInfoService.updateById(item);
-                        }
-                    });
-                }
-                // 记录日志
-                log.info("Room add from area id:{},change:{} total:{}", id, roomInfoList.size(), total);
             }
         } catch (Exception e) {
             throw new RuntimeException(e);
         } finally {
-            executorService.shutdown();
-            // 监控线程池
-            executorServiceMonitor(executorService);
             log.info("RoomListTask cost {}ms", System.currentTimeMillis() - startTime);
         }
     }
@@ -158,36 +137,5 @@ class RoomListTask {
                 .setAreaName(areaName)
                 .setLiveStatus(1)
                 ;
-    }
-
-    /**
-     * 创建线程池
-     *
-     * @return 线程池
-     */
-    private ExecutorService initExecutorService() {
-        return new ThreadPoolExecutor(
-                10,
-                50,
-                60,
-                TimeUnit.SECONDS,
-                new LinkedBlockingQueue<>(),
-                Executors.defaultThreadFactory(),
-                new ThreadPoolExecutor.AbortPolicy()
-        );
-    }
-
-    /**
-     * 监控线程池
-     *
-     * @param executorService 线程池
-     */
-    private void executorServiceMonitor(ExecutorService executorService) {
-        while (!executorService.isTerminated()) {
-            log.debug("ExecutorServiceLocal monitor: {}", executorService);
-            // 线程阻塞5秒
-            LockSupport.parkNanos(5 * 1000 * 1000000L);
-        }
-        log.debug("ExecutorServiceLocal end: {}", executorService);
     }
 }

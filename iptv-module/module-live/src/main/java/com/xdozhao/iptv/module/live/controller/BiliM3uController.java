@@ -55,7 +55,7 @@ public class BiliM3uController {
         String liveBaseUrl = env.getProperty("bilibili.live.base-url");
         QueryWrapper query = new QueryWrapper();
         query.select(ROOM_INFO.ROOM_ID, ROOM_INFO.FACE, ROOM_INFO.UNAME, ROOM_INFO.TITLE, ROOM_INFO.PARENT_AREA_NAME, ROOM_INFO.AREA_NAME)
-                .where(ROOM_INFO.LIVE_STATUS.eq(1))
+                .where(ROOM_INFO.LIVE_STATUS.eq(1).and(ROOM_INFO.ONLINE.ge(100)))
                 .orderBy(ROOM_INFO.PARENT_AREA_ID.asc(), ROOM_INFO.AREA_ID.asc(), ROOM_INFO.ONLINE.desc());
         List<RoomInfo> roomInfoList = roomInfoService.list(query);
         for (RoomInfo roomInfo : roomInfoList) {

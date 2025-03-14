@@ -4,18 +4,11 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>com.xdozhao.iptv</groupId>
-        <artifactId>iptv-web</artifactId>
+        <groupId>com.xdozhao.iptv.api</groupId>
+        <artifactId>iptv-api</artifactId>
         <version>${revision}</version>
     </parent>
 
-    <groupId>com.xdozhao.iptv.api</groupId>
-    <artifactId>iptv-api</artifactId>
-    <packaging>pom</packaging>
-    <modules>
-        <module>api-bilibili</module>
-        <module>api-mq</module>
-
-    </modules>
+    <artifactId>api-mq</artifactId>
 
 </project>

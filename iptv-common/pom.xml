@@ -16,6 +16,7 @@
         <module>common-m3u</module>
         <module>common-core</module>
         <module>common-forest</module>
+        <module>common-mq-rabbit</module>
     </modules>
 
 </project>
