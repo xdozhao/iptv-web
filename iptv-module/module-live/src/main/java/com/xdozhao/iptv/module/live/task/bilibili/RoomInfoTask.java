@@ -7,7 +7,6 @@ import com.xdozhao.iptv.api.mq.rabbit.Constants;
 import com.xdozhao.iptv.common.mq.rabbit.enitiy.Mail;
 import com.xdozhao.iptv.common.mq.rabbit.service.RabbitService;
 import com.xdozhao.iptv.module.live.entity.RoomInfo;
-import com.xdozhao.iptv.module.live.entity.table.RoomInfoTableDef;
 import com.xdozhao.iptv.module.live.forest.openapi.bilibili.live.ILiveInfoOpenApi;
 import com.xdozhao.iptv.module.live.service.IRoomInfoService;
 import lombok.AllArgsConstructor;
@@ -18,6 +17,8 @@ import org.springframework.stereotype.Component;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.List;
+
+import static com.xdozhao.iptv.module.live.entity.table.RoomInfoTableDef.ROOM_INFO;
 
 /**
  * 直播间信息获取
@@ -49,8 +50,8 @@ class RoomInfoTask {
             do {
                 page = new Page<>(pageNum++, pageSize);
                 QueryWrapper query = QueryWrapper.create()
-                        .select(RoomInfoTableDef.ROOM_INFO.ROOM_ID, RoomInfoTableDef.ROOM_INFO.VERSION)
-                        .orderBy(RoomInfoTableDef.ROOM_INFO.ID.asc());
+                        .select(ROOM_INFO.ROOM_ID, ROOM_INFO.VERSION)
+                        .orderBy(ROOM_INFO.ID.asc());
                 page = roomInfoService.page(page, query);
                 List<RoomInfo> records = page.getRecords();
                 for (RoomInfo item : records) {

@@ -1,6 +1,6 @@
 {
-  "version": "20250123",
-  "syncAt": 1737625589035,
+  "version": "20250314",
+  "syncAt": 1741943518375,
   "syncFrom": "天光云影配置",
   "description": null,
   "configs": {
@@ -15,7 +15,7 @@
     "debugShowLayoutGrids": false,
     "iptvSourceCacheTime": 86400000,
     "iptvSourceCurrent": {
-      "name": "默认直播源（IPV6）",
+      "name": "电视直播",
       "url": "https://tv.iill.top/m3u/Gather",
       "isLocal": false,
       "transformJs": null
@@ -30,7 +30,7 @@
         },
         {
           "name": "AKTV",
-          "url": "https://aktv.top/live.m3u",
+          "url": "https://aktv.space/live.m3u",
           "isLocal": false,
           "transformJs": null
         },
@@ -48,7 +48,25 @@
         },
         {
           "name": "mytvsuper",
-          "url": "https://www.mytvsuper.com.mp/m3u/Live.m3u",
+          "url": "https://video.mytvsuper.xyz/playlist/zong-he-ding-yue.m3u?token=624302071576450",
+          "isLocal": false,
+          "transformJs": null
+        },
+        {
+          "name": "aio-tv",
+          "url": "http://192.168.1.2:35455/tv.m3u",
+          "isLocal": false,
+          "transformJs": null
+        },
+        {
+          "name": "doube-ofiii-tv",
+          "url": "http://192.168.1.2:5000/Sub?type=m3u&sd=1080",
+          "isLocal": false,
+          "transformJs": null
+        },
+        {
+          "name": "doube-ofiii-tv(proxy)",
+          "url": "http://192.168.1.2:5000/Sub?type=m3u&sd=1080&proxy=true",
           "isLocal": false,
           "transformJs": null
         },
@@ -61,12 +79,6 @@
         {
           "name": "my-service-online",
           "url": "http://192.168.1.2:8911/live/m3u/online",
-          "isLocal": false,
-          "transformJs": null
-        },
-        {
-          "name": "aio-tv",
-          "url": "http://192.168.1.2:35455/tv.m3u",
           "isLocal": false,
           "transformJs": null
         }

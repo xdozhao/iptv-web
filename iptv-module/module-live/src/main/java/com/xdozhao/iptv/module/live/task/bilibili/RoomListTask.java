@@ -10,7 +10,6 @@ import com.xdozhao.iptv.common.mq.rabbit.enitiy.Mail;
 import com.xdozhao.iptv.common.mq.rabbit.service.RabbitService;
 import com.xdozhao.iptv.module.live.entity.LiveArea;
 import com.xdozhao.iptv.module.live.entity.RoomInfo;
-import com.xdozhao.iptv.module.live.entity.table.RoomInfoTableDef;
 import com.xdozhao.iptv.module.live.forest.openapi.bilibili.live.ILiveAreaOpenApi;
 import com.xdozhao.iptv.module.live.forest.openapi.bilibili.live.ILiveInfoOpenApi;
 import com.xdozhao.iptv.module.live.forest.response.bilibili.BiliBaseResponse;
@@ -27,6 +26,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import static com.xdozhao.iptv.module.live.entity.table.LiveAreaTableDef.LIVE_AREA;
+import static com.xdozhao.iptv.module.live.entity.table.RoomInfoTableDef.ROOM_INFO;
 
 
 /**
@@ -58,7 +58,7 @@ class RoomListTask {
     void run() {
         long startTime = System.currentTimeMillis();
         // 更新所有数据直播状态为 -1
-        boolean updateAll = roomInfoService.update(new RoomInfo().setLiveStatus(-1), RoomInfoTableDef.ROOM_INFO.ID.isNotNull());
+        boolean updateAll = roomInfoService.update(new RoomInfo().setLiveStatus(-1), ROOM_INFO.ID.isNotNull());
         log.info("更新所有数据直播状态为 -1: {}", updateAll);
         try {
             // 查询分区
